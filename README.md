@@ -1,12 +1,12 @@
-# The Old School Website
+# School Portal
 
-Preserved standalone website for **The School**, 29 Nassau Avenue in Williamsburg, Brooklyn. The page combines a full-screen Three.js scene of the building with a small semantic HTML overlay for the identity, tagline, and four destination links.
+Standalone portal page for **The School**, 29 Nassau Avenue in Williamsburg, Brooklyn. The page combines a full-screen Three.js scene of the building with a small semantic HTML overlay for the identity, tagline, and four destination links.
 
 This repository is intentionally small: there is no framework, package manager, or build step. The complete page lives in [`index.html`](index.html), and the baked building scan lives in [`public/school.glb`](public/school.glb).
 
 ## Project status
 
-This is the published source for the preserved legacy School experience, separated from the newer Grove Marketplace codebase. The Space, Technology Philanthropy, and Join the Neighborhood cards link to their live destinations; Art Philanthropy remains intentionally inactive until its final URL is chosen. The current model uses Google Earth-derived imagery and carries a visible source disclosure on the page.
+This is the published source for the School portal page, separated from the Grove Marketplace codebase. The Space, Technology Philanthropy, and Join the Neighborhood cards link to their live destinations; Art Philanthropy remains intentionally inactive until its final URL is chosen. The current model uses Google Earth-derived imagery and carries a visible source disclosure on the page.
 
 ![Desktop view of The School website](docs/screenshot-desktop.jpg)
 
