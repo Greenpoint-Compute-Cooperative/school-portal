@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#111713" />
 <meta name="referrer" content="no-referrer" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-XYXW6MCzuPx6YgVBikaWzj/WPdhV/gvfR5GuWfBulSI=' 'sha256-ITH41Ijx/HPQGQv5fNElC6WBFhlXB1c8DfQty1lPZv0='; script-src-attr 'none'; style-src 'self' 'sha256-gyXE3FSWWWcHHhJ3Iby+cqsJYYO4qKxdQmV7CythzaY='; img-src 'self' data: blob:; connect-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-XYXW6MCzuPx6YgVBikaWzj/WPdhV/gvfR5GuWfBulSI=' 'sha256-yDoKn6ReGVm57dWB6OgZGKUBaxtyRSzWOI1AMTOuPww='; script-src-attr 'none'; style-src 'self' 'sha256-YAE/fpPrGbfvPIi+BQoY0VtIDHzbGlj8B3zpBNqvYHk='; img-src 'self' data: blob:; connect-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" />
 <title>The School — 29 Nassau Avenue</title>
 <meta name="description" content="The School. 29 Nassau Avenue, Williamsburg, Brooklyn." />
 <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
@@ -34,7 +34,9 @@
   #brand .kick { font:600 10px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.38em; color:var(--chalk-2); text-transform:uppercase; }
   #brand .h { font-size:26px; font-weight:850; letter-spacing:-.04em; margin-top:6px; line-height:1.1; }
   #brand .sub { display:flex; gap:0 16px; align-items:baseline; font:500 12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--chalk-2); margin-top:6px; }
-  #brand .sub .addr { color:rgba(var(--signal),.92); }
+  #brand .sub .addr { color:rgba(var(--signal),.92);
+    -webkit-user-select:none; user-select:none; -webkit-touch-callout:none;
+    -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
   #brand .sub .time { margin-left:auto; font-variant-numeric:tabular-nums; font-size:11px; letter-spacing:.12em; color:var(--chalk-2); }
   #brand::after { content:""; position:absolute; left:0; right:0; bottom:0; height:1px;
     background:linear-gradient(90deg, rgba(var(--signal),.85), rgba(var(--cobalt),.7) 48%, rgba(var(--coral),.62) 78%, transparent); }
@@ -72,6 +74,8 @@
   .door.space { --tint:var(--signal); }
   .door.tech  { --tint:var(--cobalt); }
   .door.art   { --tint:var(--coral); }
+  /* the fifth door: added by script when someone knows to look for it */
+  .door.access { --tint:198,208,202; }
   .door.join  { --tint:var(--amber); --sill:1; color:var(--chalk);
     background:linear-gradient(180deg, rgba(24,30,25,.98), rgba(14,19,15,.97));
     box-shadow:0 18px 38px -18px rgba(0,0,0,.95), 0 1px 0 rgba(255,255,255,.08); }
@@ -452,6 +456,40 @@ setTimeout(() => { if (!loaded) show('#copy, .door', 0); }, 2200);
 
 // ---- loop ---------------------------------------------------------------------------
 const clock = new THREE.Clock();
+// The fifth door. Press and hold the address for three quarters of a second and it
+// appears. It is not in the markup, so it is not in the tab order, not in the
+// accessibility tree until it exists, and not something a crawler follows. The two
+// strings below are base64 so the page does not advertise the destination to anyone
+// idly reading the source. That is a curtain, not a lock: the source is public and
+// anyone determined will decode it in seconds. The actual protection is on the other
+// side, where the app requires a passkey or a code emailed to an invited member.
+(function frontDoor() {
+  const addr = document.querySelector('#brand .sub .addr');
+  const links = document.getElementById('links');
+  if (!addr || !links) return;
+  const HOLD_MS = 750;
+  let timer = null, revealed = false;
+  const cancel = () => { clearTimeout(timer); timer = null; };
+  const reveal = () => {
+    cancel();
+    if (revealed) return;
+    revealed = true;
+    const a = document.createElement('a');
+    a.className = 'door access in';
+    a.href = 'https://' + atob('YWNjZXNzLnRoZXNjaG9vbC5mdW4=');
+    a.innerHTML = '<svg class="mark" viewBox="0 0 20 20" aria-hidden="true">'
+      + '<rect x="5.5" y="3" width="9" height="14"/>'
+      + '<circle cx="12" cy="10" r="0.9" fill="currentColor" stroke="none"/></svg>'
+      + '<span class="label"></span><span class="cue" aria-hidden="true">\u2192</span>';
+    a.querySelector('.label').textContent = atob('RnJvbnQgRG9vcg==');
+    links.appendChild(a);
+    requestAnimationFrame(() => { a.classList.add('on'); a.focus({ preventScroll: true }); });
+  };
+  addr.addEventListener('pointerdown', (e) => { if (e.button === 0 || e.pointerType !== 'mouse') timer = setTimeout(reveal, HOLD_MS); });
+  for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) addr.addEventListener(ev, cancel);
+  addr.addEventListener('contextmenu', (e) => e.preventDefault());
+})();
+
 (function loop() {
   requestAnimationFrame(loop);
   const dt = Math.min(clock.getDelta(), 0.1), t = clock.elapsedTime;
