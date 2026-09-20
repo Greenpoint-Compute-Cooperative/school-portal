@@ -7,6 +7,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const indexPath = path.join(root, 'index.html');
 const index = await readFile(indexPath, 'utf8');
 const vercel = JSON.parse(await readFile(path.join(root, 'vercel.json'), 'utf8'));
+const pagesHeaders = await readFile(path.join(root, '_headers'), 'utf8').catch(() => null);
 const failures = [];
 
 const digest = (source) => `sha256-${createHash('sha256').update(source).digest('base64')}`;
@@ -23,7 +24,12 @@ const headerSet = vercel.headers?.flatMap((rule) => rule.headers || []) || [];
 const headerCsp = headerSet.find((header) => header.key === 'Content-Security-Policy')?.value;
 if (!headerCsp) failures.push('vercel.json is missing its Content-Security-Policy header.');
 
+const pagesCsp = pagesHeaders?.match(/^\s+Content-Security-Policy:\s*(.+)$/m)?.[1];
+if (!pagesCsp) failures.push('_headers is missing its Content-Security-Policy header.');
+if (pagesCsp && headerCsp && pagesCsp !== headerCsp) failures.push('_headers and vercel.json carry different Content-Security-Policy values.');
+
 for (const { kind, hash } of blocks) {
+  if (!pagesCsp?.includes(`'${hash}'`)) failures.push(`Cloudflare Pages CSP header is missing the current ${kind} hash: ${hash}`);
   if (!metaCsp?.includes(`'${hash}'`)) failures.push(`CSP meta element is missing the current ${kind} hash: ${hash}`);
   if (!headerCsp?.includes(`'${hash}'`)) failures.push(`Vercel CSP header is missing the current ${kind} hash: ${hash}`);
 }

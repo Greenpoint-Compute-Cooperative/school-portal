@@ -1,0 +1,15 @@
+# Cloudflare deployment for the School portal: a Worker that serves only the
+# static files staged in dist/ (what Cloudflare now ships as Pages). There is
+# no script; _headers in dist/ carries the security and cache headers.
+# Deploys run against a pinned commit:
+#   node scripts/check-release.mjs && node scripts/build-pages.mjs
+#   npx wrangler deploy
+name = "school-portal"
+compatibility_date = "2026-09-01"
+workers_dev = true
+preview_urls = true
+
+[assets]
+directory = "./dist"
+html_handling = "auto-trailing-slash"
+not_found_handling = "none"
