@@ -1,0 +1,19 @@
+# Cloudflare Pages response headers. Mirrors vercel.json; scripts/check-release.mjs
+# fails when the CSP here drifts from the inline blocks in index.html.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-XYXW6MCzuPx6YgVBikaWzj/WPdhV/gvfR5GuWfBulSI=' 'sha256-yDoKn6ReGVm57dWB6OgZGKUBaxtyRSzWOI1AMTOuPww='; script-src-attr 'none'; style-src 'self' 'sha256-YAE/fpPrGbfvPIi+BQoY0VtIDHzbGlj8B3zpBNqvYHk='; img-src 'self' data: blob:; connect-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Permissions-Policy: camera=(), geolocation=(), microphone=()
+  Referrer-Policy: no-referrer
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  ! Access-Control-Allow-Origin
+
+# Vendored Three.js and the model change rarely; neither path is versioned, so no immutable.
+/public/vendor/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2678400
+
+/public/school.glb
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
