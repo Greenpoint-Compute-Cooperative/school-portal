@@ -1,6 +1,6 @@
 # School Portal
 
-Standalone portal page for **The School**, 29 Nassau Avenue in Williamsburg, Brooklyn. The page combines a full-screen Three.js scene of the building with a small semantic HTML overlay for the identity, tagline, and five destination links.
+Standalone portal page for **The School**, 29 Nassau Avenue in Williamsburg, Brooklyn. The page combines a full-screen Three.js scene of the building with a small semantic HTML overlay for the identity, tagline, and four destination links.
 
 This repository is intentionally small: there is no framework, package manager, or build step. The complete page lives in [`index.html`](index.html), and the baked building scan lives in [`public/school.glb`](public/school.glb).
 
@@ -44,7 +44,7 @@ There is nothing to install and nothing to compile.
 The experience is split into two layers:
 
 1. A fixed, full-viewport WebGL canvas renders the procedural chromatic field, clipped building island, contact shadow, bloom, tone mapping, vignette, grain, and subtle chromatic aberration.
-2. A regular HTML layer renders the header, Brooklyn clock, tagline, and five accessible navigation links above the canvas.
+2. A regular HTML layer renders the header, Brooklyn clock, tagline, and four accessible navigation links above the canvas.
 
 One world-space key light drives the building shading, signal-mint rim, field highlight, bloom peak, and card specular position. The camera orbits the stationary model, slowing around the facade and accelerating across the back. On lower-power or coarse-pointer devices, the renderer reduces pixel ratio and bloom resolution, disables antialiasing and chromatic aberration, and keeps the same composition at a lower cost.
 
@@ -59,7 +59,7 @@ Everything below is in [`index.html`](index.html):
 - **Page title and description:** edit the `<title>` and description `<meta>` elements in `<head>`.
 - **Identity and address:** edit the `#brand` header.
 - **Tagline:** edit the paragraph inside `#copy`.
-- **Destination labels and URLs:** edit the five anchors inside `#links`. Art Philanthropy currently uses `href="#"` to remain on this page until its final destination is chosen.
+- **Destination labels and URLs:** edit the four anchors inside `#links`. Art Philanthropy currently uses `href="#"` to remain on this page until its final destination is chosen.
 - **Palette and spacing:** edit the custom properties at the top of the `<style>` block.
 - **Camera and lighting:** edit `FRONT`, `orbit`, `KEY`, and the `fit()` logic in the module script.
 - **Island crop:** edit `ISLAND_R`; the framing and plinth are derived from it.
@@ -89,7 +89,7 @@ Before pushing a visual or content change:
 1. Start the local server and load the page without console errors.
 2. Confirm `public/school.glb` returns HTTP 200 and the building appears.
 3. Check a wide desktop viewport and a narrow phone viewport.
-4. Confirm the tagline and all five door labels remain readable without clipping.
+4. Confirm the tagline and all four door labels remain readable without clipping.
 5. Test keyboard focus on each door and verify any configured destination URLs.
 6. Test with reduced motion enabled.
 7. Run `node scripts/check-release.mjs` to validate vendored imports and CSP hashes.
@@ -117,4 +117,4 @@ The project’s original source code is available under the [MIT License](LICENS
 
 ## Design intent
 
-The page is not a general site template. It is a focused portrait of a place: a fixed light, a moving point of view, a clipped photogrammetry island, and five doors into the larger project. Preserve that hierarchy when maintaining it—the building is the image, the light is the event, and the interface stays quiet.
+The page is not a general site template. It is a focused portrait of a place: a fixed light, a moving point of view, a clipped photogrammetry island, and four doors into the larger project. Preserve that hierarchy when maintaining it—the building is the image, the light is the event, and the interface stays quiet.
