@@ -7,6 +7,9 @@
 name = "school-portal"
 compatibility_date = "2026-09-01"
 workers_dev = true
+# portal.theschool.fun is a Workers custom domain (zone theschool.fun in the
+# same account since 2026-10-02). Listed here so a deploy keeps it.
+routes = [{ pattern = "portal.theschool.fun", custom_domain = true }]
 preview_urls = true
 
 [assets]
