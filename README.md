@@ -6,7 +6,7 @@ This repository is intentionally small: there is no framework, package manager, 
 
 ## Project status
 
-This is the published source for the School portal page, separated from the Grove Marketplace codebase. All four cards link to live destinations: The Space, Technology Philanthropy, Art Marketplace and School Access. The current model uses Google Earth-derived imagery and carries a visible source disclosure on the page.
+This is the published source for the School portal page, separated from the Grove Marketplace codebase. It is live at https://portal.theschool.fun (Cloudflare Worker `school-portal`; also https://school-portal.gpcc.workers.dev and the Vercel copy). All four cards link to live destinations: The Space, Technology Philanthropy, Art Marketplace and School Access. The current model uses Google Earth-derived imagery and carries a visible source disclosure on the page.
 
 ![Desktop view of The School website](docs/screenshot-desktop.jpg)
 
