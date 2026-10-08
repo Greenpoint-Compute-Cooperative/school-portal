@@ -1,18 +1,26 @@
-# Cloudflare deployment for the School portal: a Worker that serves only the
-# static files staged in dist/ (what Cloudflare now ships as Pages). There is
-# no script; _headers in dist/ carries the security and cache headers.
+# Cloudflare deployment for the School portal: a Worker that serves the static
+# files staged in dist/ (what Cloudflare now ships as Pages); _headers in dist/
+# carries the security and cache headers. worker.mjs runs first only to
+# redirect the other hostnames below to portal.theschool.fun.
 # Deploys run against a pinned commit:
 #   node scripts/check-release.mjs && node scripts/build-pages.mjs
 #   npx wrangler deploy
 name = "school-portal"
+main = "worker.mjs"
 compatibility_date = "2026-09-01"
 workers_dev = true
 # portal.theschool.fun is a Workers custom domain (zone theschool.fun in the
 # same account since 2026-10-02). Listed here so a deploy keeps it.
-routes = [{ pattern = "portal.theschool.fun", custom_domain = true }]
+# portal.theschool.nyc (zone theschool.nyc, same account) redirects to it.
+routes = [
+  { pattern = "portal.theschool.fun", custom_domain = true },
+  { pattern = "portal.theschool.nyc", custom_domain = true },
+]
 preview_urls = true
 
 [assets]
 directory = "./dist"
+binding = "ASSETS"
+run_worker_first = true
 html_handling = "auto-trailing-slash"
 not_found_handling = "none"
