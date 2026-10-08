@@ -1,7 +1,7 @@
 # Cloudflare Pages response headers. Mirrors vercel.json; scripts/check-release.mjs
 # fails when the CSP here drifts from the inline blocks in index.html.
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-XYXW6MCzuPx6YgVBikaWzj/WPdhV/gvfR5GuWfBulSI=' 'sha256-XjYrZSs2DiY9aTyqv9daEc08CTR7LJyuUPiBGa7sm9w='; script-src-attr 'none'; style-src 'self' 'sha256-+jqjnBBZT/o+6lY9XkqaDEahE5OD6+X4vaZd3xd1qcU='; img-src 'self' data: blob:; connect-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-XYXW6MCzuPx6YgVBikaWzj/WPdhV/gvfR5GuWfBulSI=' 'sha256-KpedNFtxvRni8vonrSlgnnfvEwlHtrG4gHQd+2R2iCU='; script-src-attr 'none'; style-src 'self' 'sha256-OaAnwuS5dMO5dBhvkAX3kxgZAE96Ru1uZ3yZgJmzto8='; img-src 'self' data: blob:; connect-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
   Permissions-Policy: camera=(), geolocation=(), microphone=()
