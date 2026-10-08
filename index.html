@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#111713" />
 <meta name="referrer" content="no-referrer" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-XYXW6MCzuPx6YgVBikaWzj/WPdhV/gvfR5GuWfBulSI=' 'sha256-XjYrZSs2DiY9aTyqv9daEc08CTR7LJyuUPiBGa7sm9w='; script-src-attr 'none'; style-src 'self' 'sha256-+jqjnBBZT/o+6lY9XkqaDEahE5OD6+X4vaZd3xd1qcU='; img-src 'self' data: blob:; connect-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-XYXW6MCzuPx6YgVBikaWzj/WPdhV/gvfR5GuWfBulSI=' 'sha256-KpedNFtxvRni8vonrSlgnnfvEwlHtrG4gHQd+2R2iCU='; script-src-attr 'none'; style-src 'self' 'sha256-OaAnwuS5dMO5dBhvkAX3kxgZAE96Ru1uZ3yZgJmzto8='; img-src 'self' data: blob:; connect-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" />
 <title>The School — 29 Nassau Avenue</title>
 <meta name="description" content="The School. 29 Nassau Avenue, Williamsburg, Brooklyn." />
 <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
@@ -50,6 +50,16 @@
 
   #attribution { display:block; padding-top:8px; font:600 9px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.11em;
     text-transform:uppercase; color:rgba(244,242,236,.52); text-shadow:0 1px 10px rgba(0,0,0,.75); }
+
+  /* quiet working links under the doors: tools for people already inside, not destinations */
+  #foot { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0 20px; padding-top:2px; }
+  #more { display:flex; gap:0 20px; }
+  #more a { padding:12px 0 8px; font:600 10px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--chalk-2); text-decoration:none; text-shadow:0 1px 10px rgba(0,0,0,.75); -webkit-tap-highlight-color:transparent;
+    transition:color .3s var(--ease); }
+  #more a:hover { color:rgb(var(--signal)); }
+  #more a:focus-visible { outline:2px solid rgba(var(--signal),.95); outline-offset:2px; border-radius:3px; }
+  #foot #attribution { padding-top:0; }
 
   /* ---- the four doors ---------------------------------------------------------- */
   #links { display:grid; gap:8px; grid-template-columns:1fr; margin-top:12px; }
@@ -147,7 +157,13 @@
       <span class="label">School Access</span><span class="cue" aria-hidden="true">→</span>
     </a>
   </nav>
-  <small id="attribution">3D imagery derived from Google Earth</small>
+  <footer id="foot" class="in">
+    <nav id="more" aria-label="Tools">
+      <a href="https://form.theschool.nyc/">Forms</a>
+      <a href="https://github.com/Greenpoint-Compute-Cooperative">GitHub</a>
+    </nav>
+    <small id="attribution">3D imagery derived from Google Earth</small>
+  </footer>
 </div>
 
 <script type="importmap">
@@ -441,6 +457,7 @@ function choreograph() {
   tween(1200, k => { exposureNow = 0.45 + (EXPOSURE - 0.45) * k; light.key = k; }, 200);
   show('#copy', 600);
   ['space', 'tech', 'art', 'access'].forEach((c, i) => show(`.door.${c}`, 750 + i * 80));
+  show('#foot', 1150);
 }
 // if the model is slow, don't hold the text hostage
 setTimeout(() => { if (!loaded) show('#copy, .door', 0); }, 2200);
